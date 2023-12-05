@@ -22,6 +22,7 @@ int main() {
 		set.insert(line);
 	}
 
+	// Reverse through the set using an iterator and print each line
 	for (std::set<string>::reverse_iterator it = set.rbegin(); it != set.rend(); ++it) {
 		std::cout << *it << std::endl;
 	}
