@@ -1,12 +1,12 @@
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <stack>
+#include <string>
 using namespace std;
 
 int main() {
 	ifstream file;
-	file.open("../text.txt");
+	file.open("../../text.txt");
 
 	// Check if file is open for reading operation
 	if (!file.is_open()) {

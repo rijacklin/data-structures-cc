@@ -6,7 +6,7 @@ using namespace std;
 
 int main() {
 	ifstream file;
-	file.open("../text.txt");
+	file.open("../../text.txt");
 
 	// Track lines of file
 	int lineCount = 0;
