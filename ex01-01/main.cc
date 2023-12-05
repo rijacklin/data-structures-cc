@@ -1,12 +1,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <set>
+#include <stack>
 using namespace std;
 
 int main() {
 	ifstream file;
-	file.open("text.txt");
+	file.open("../text.txt");
 
 	// Check if file is open for reading operation
 	if (!file.is_open()) {
@@ -15,19 +15,21 @@ int main() {
 	}
 
 	string line;
-	set<string> set;
+	stack<string> lines;
 
-	// Read lines from file and write to std output
+	// Read each line from file and push it onto the stack
 	while (getline(file, line)) {
-		set.insert(line);
-	}
-
-	// Reverse through the set using an iterator and print each line
-	for (std::set<string>::reverse_iterator it = set.rbegin(); it != set.rend(); ++it) {
-		std::cout << *it << std::endl;
+		lines.push(line);
 	}
 
 	// Close the file
 	file.close();
+
+	// Pop each element off the stack
+	while (!lines.empty()) {
+		std::cout << lines.top() << std::endl;
+		lines.pop();
+	}
+
 	return 0;
 }
