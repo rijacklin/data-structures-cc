@@ -5,7 +5,11 @@
 using namespace std;
 
 int main() {
+	string line;
+	queue<string> lines;
 	ifstream file;
+
+	// Open file from disk
 	file.open("../../text2.txt");
 
 	// Track lines of file
@@ -18,8 +22,6 @@ int main() {
 		return 1;
 	}
 
-	string line;
-	queue<string> lines;
 
 	// Read the lines from the file
 	while (getline(file, line)) {

@@ -10,7 +10,11 @@ bool compareLength(const string& a, const string& b) {
 }
 
 int main() {
+	string line;
+	vector<string> lines;
 	ifstream file;
+
+	// Open file from disk
 	file.open("../../text3.txt");
 
 	// Check if file is open
@@ -18,9 +22,6 @@ int main() {
 		std::cerr << "Unable to open file" << std::endl;
 		return 0;
 	}
-
-	string line;
-	vector<string> lines;
 
 	// Read the lines from the file and push each into a vector of strings
 	while (getline(file, line)) {

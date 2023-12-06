@@ -5,7 +5,11 @@
 using namespace std;
 
 int main() {
+	string line;
+	stack<string> lines;
 	ifstream file;
+
+	// Open file from disk
 	file.open("../../text.txt");
 
 	// Check if file is open for reading operation
@@ -13,9 +17,6 @@ int main() {
 		std::cerr << "Unable to open file" << std::endl;
 		return 1;
 	}
-
-	string line;
-	stack<string> lines;
 
 	// Read each line from file and push it onto the stack
 	while (getline(file, line)) {

@@ -1,13 +1,12 @@
 #include <algorithm>
+#include <ctime>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <string>
 #include <vector>
 using namespace std;
-
-bool compareLength(const string& a, const string& b) {
-	return a.length() < b.length();
-}
 
 int main() {
 	string line;
@@ -23,23 +22,18 @@ int main() {
 		return 0;
 	}
 
-	// Read the lines from the file
+	// Read the lines from the file and push each into a vector of strings
 	while (getline(file, line)) {
-		if (lines.size() > 1) {
-			// Skip line if already contained in vector to avoid duplicates
-			vector<string>::iterator it = find(lines.begin(), lines.end(), line);
-
-			if (it != lines.end()) continue;
-		}
-
-		// Push each line into a Vector of string
 		lines.push_back(line);
 	}
 
-	// Sort the vector by string length
-	sort(lines.begin(), lines.end(), compareLength);
+	// Create random seed value
+	std::default_random_engine rng(std::chrono::system_clock::now().time_since_epoch().count());
 
-	// Print the lines, sorted by length, without duplicates
+	// Randomize the vector
+	std::shuffle(lines.begin(), lines.end(), rng);
+
+	// Print the randomized lines from the vector
 	for (int i = 0; i < lines.size(); i++) {
 		std::cout << lines[i] << std::endl;
 	}

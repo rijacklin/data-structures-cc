@@ -5,7 +5,11 @@
 using namespace std;
 
 int main() {
+	string line;
+	stack<string> lines;
 	ifstream file;
+
+	// Open file from disk
 	file.open("../../text.txt");
 
 	// Track lines of file
@@ -17,9 +21,6 @@ int main() {
 		std::cerr << "Unable to open file" << std::endl;
 		return 1;
 	}
-
-	string line;
-	stack<string> lines;
 
 	// Read the first 50 lines from the file and push them onto the stack
 	while (getline(file, line)) {

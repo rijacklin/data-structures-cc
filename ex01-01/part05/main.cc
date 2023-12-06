@@ -5,7 +5,11 @@
 using namespace std;
 
 int main() {
+	string line;
+	set<string> lines;
 	ifstream file;
+
+	// Open file from disk
 	file.open("../../text3.txt");
 
 	// Check if file is open
@@ -13,9 +17,6 @@ int main() {
 		std::cerr << "Unable to open file" << std::endl;
 		return 0;
 	}
-
-	string line;
-	set<string> lines;
 
 	// Read the lines from the file
 	while (getline(file, line)) {
