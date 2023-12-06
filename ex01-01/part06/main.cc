@@ -12,7 +12,7 @@ bool compareLength(const string& a, const string& b) {
 
 int main() {
 	ifstream file;
-	file.open("../../text.txt");
+	file.open("../../text3.txt");
 
 	// Check if file is open
 	if (!file.is_open()) {
@@ -20,11 +20,20 @@ int main() {
 		return 0;
 	}
 
+	int lineCount = 0;
+
 	string line;
 	vector<string> lines;
 
 	// Read the lines from the file
 	while (getline(file, line)) {
+		if (lines.size() > 1) {
+			// Skip line if already contained in vector to avoid duplicates
+			vector<string>::iterator it = find(lines.begin(), lines.end(), line);
+
+			if (it != lines.end()) continue;
+		}
+
 		// Push each line into a Vector of string
 		lines.push_back(line);
 	}
@@ -32,6 +41,7 @@ int main() {
 	// Sort the vector by string length
 	sort(lines.begin(), lines.end(), compareLength);
 
+	// Print the lines, sorted by length, without duplicates
 	for (int i = 0; i < lines.size(); i++) {
 		std::cout << lines[i] << std::endl;
 	}
