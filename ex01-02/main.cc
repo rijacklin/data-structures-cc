@@ -4,8 +4,8 @@
 using namespace std;
 
 int main() {
-	// Create an array that the dyck_word vector will be created from
-	// and an integer to calculate the number of elements in n using pointers
+	// Create an array that will initialize the dyck_word vector 
+	// and an integer to calculate the number of elements using pointers
 	int dyck_sequence[] = { 1, 1, -1, -1 };
 	int n = sizeof(dyck_sequence) / sizeof(dyck_sequence[0]);
 
