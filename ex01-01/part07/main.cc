@@ -19,20 +19,11 @@ int main() {
 		return 0;
 	}
 
-
 	string line;
 	vector<string> lines;
 
-	// Read the lines from the file
+	// Read the lines from the file and push each into a vector of strings
 	while (getline(file, line)) {
-		if (lines.size() > 1) {
-			// Skip line if already contained in vector to avoid duplicates
-			vector<string>::iterator it = find(lines.begin(), lines.end(), line);
-
-			if (it != lines.end()) continue;
-		}
-
-		// Push each line into a Vector of string
 		lines.push_back(line);
 	}
 
