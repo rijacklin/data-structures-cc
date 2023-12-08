@@ -1,10 +1,11 @@
 #include <iostream>
 #include "./chapter-examples/ArrayStack.h"
+#include "./chapter-examples/FastArrayStack.h"
 
 using namespace std;
 
 int main() {
-	ArrayStack<int> stack;
+	FastArrayStack<int> stack;
 
 	stack.add(0, 1);
 	stack.add(1, 2);

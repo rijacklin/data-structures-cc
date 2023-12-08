@@ -1,11 +1,11 @@
-#ifndef ARRAYSTACK_H
-#define ARRAYSTACK_H
+#ifndef FASTARRAYSTACK_H
+#define FASTARRAYSTACK_H
 
 #include "./array.h"
 #include <algorithm>
 
 // ===
-// ArrayStack
+// FastArrayStack
 // ===
 
 /**
@@ -23,13 +23,13 @@
  * remove(n -1), respectively, in O(1) amortized time.
  */
 template <typename T>
-class ArrayStack {
+class FastArrayStack {
 private:
 	array<T> a;
 	int n;
 
 public:
-	ArrayStack() : a(n = 0) {}
+	FastArrayStack() : a(n = 0) {}
 
 	// get(i)
 	T get(int i) {
@@ -61,10 +61,8 @@ public:
 		// If so, resize so that a.length > n
 		if (n + 1 > a.length) resize();
 
-		// Shift elements a[i:n-1] right by one position
-		for (int j = n; j > i; j--) {
-			a[j] = a[j - 1];
-		}
+		// Shift elements a[i:n-1] right by one position efficiently
+		std::copy_backward(a.a + i, a.a + n, a.a + n + 1);
 
 		// Set a[i] equal to x and increment n
 		a[i] = x;
@@ -78,10 +76,8 @@ public:
 	T remove(int i) {
 		T x = a[i];
 
-		// Shift elements a[i + 1:n -1] left one position (overwriting a[i])
-		for (int j = i; j < n; j++) {
-			a[j] = a[j + 1];
-		}
+		// Shift elements a[i:n-1] left by one position efficiently
+		std::copy_backward(a.a + i, a.a + n, a.a + n - 1);
 
 		// Decrement n
 		n--;
@@ -100,16 +96,14 @@ public:
 	// Operation is O(n)
 	void resize() {
 		// Create a new array that is double the size of the backing array
-		array<T> b(std::max(2 * n, 1));
+		array<T> b(std::max(1, 2 * n));
 
-		// Copy n elements from a to b
-		for (int i = 0; i < n; i++) {
-			b[i] = a[i];
-		}
+		// Copy n elements from a to b using efficient std::copy algorithm
+		std::copy(a.a + 0, a.a +n, b.a + 0);
 
 		// Set backing array a to new backing array b
 		a = b;
 	}
 };
 
-#endif // ARRAYSTACK_H
+#endif // FASTARRAYSTACK_H
