@@ -9,14 +9,6 @@ public:
 	T *a;
 	int length;
 
-	// T* begin() {
-	// 	return a;
-	// }
-	//
-	// T* end() {
-	// 	return a + length;
-	// }
-
 	// Initializer
 	array(int len) {
 		// Set the length of new array

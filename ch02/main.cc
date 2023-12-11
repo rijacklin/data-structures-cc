@@ -1,21 +1,18 @@
 #include <iostream>
+#include <typeinfo>
+#include <type_traits>
+
 #include "./chapter-examples/ArrayStack.h"
 #include "./chapter-examples/FastArrayStack.h"
+#include "./chapter-examples/ArrayQueue.h"
+#include "./chapter-examples/ArrayDequeue.h"
+#include "./chapter-examples/DualArrayDequeue.h"
 
 using namespace std;
 
 int main() {
-	FastArrayStack<int> stack;
-
-	stack.add(0, 1);
-	stack.add(1, 2);
-	stack.add(2, 3);
-
-	std::cout << "Size of ArrayStack: " << stack.size() << std::endl;
-
-	std::cout << "Removed: " << stack.remove(1) << std::endl;
-
-	std::cout << "Size of ArrayStack: " << stack.size() << std::endl;
+	DualArrayDequeue<int> stack;
+	stack.test();
 
 	return 0;
 }

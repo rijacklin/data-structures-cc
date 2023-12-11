@@ -3,6 +3,8 @@
 
 #include "./array.h"
 #include <algorithm>
+#include <iostream>
+#include <string>
 
 // ===
 // ArrayStack
@@ -24,21 +26,54 @@
  */
 template <typename T>
 class ArrayStack {
-private:
+public:
 	array<T> a;
 	int n;
 
-public:
 	ArrayStack() : a(n = 0) {}
+
+	// Print a description of the data structure
+	std::string typeDesc() {
+        return "2.1 | ArrayStack: Fast Stack Operations Using an Array";
+    }
+
+	// Test the data structure
+	void test() {
+		std::cout << "===" << std::endl;
+		std::cout << this->typeDesc() << std::endl;
+		std::cout << "===" << std::endl;
+
+		this->add(0, 1);
+		std::cout << "ArrayStack.add(0, 1)" << std::endl;
+		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->add(1, 2);
+		std::cout << "ArrayStack.add(1, 2)" << std::endl;
+		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->add(2, 3);
+		std::cout << "ArrayStack.add(2, 3)" << std::endl;
+		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "ArrayStack.remove(1) = " << this->remove(1) << std::endl;
+		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		std::cout << "ArrayStack.get(1) = " << this->get(1) << std::endl;
+		std::cout << "ArrayStack.set(1, 4) = " << this->set(1, 4) << std::endl;
+	}
 
 	// get(i)
 	T get(int i) {
 		return a[i];
 	}
 
-	// set(x, i)
+	// set(i, x)
 	T set(int i, T x) {
-		T y = a[i];
+		T &y = a[i];
 		a[i] = x;
 		return y;
 	}
