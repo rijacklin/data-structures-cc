@@ -7,11 +7,12 @@
 #include "./chapter-examples/ArrayQueue.h"
 #include "./chapter-examples/ArrayDequeue.h"
 #include "./chapter-examples/DualArrayDequeue.h"
+#include "./chapter-examples/RootishArrayStack.h"
 
 using namespace std;
 
 int main() {
-	DualArrayDequeue<int> stack;
+	RootishArrayStack<int> stack;
 	stack.test();
 
 	return 0;

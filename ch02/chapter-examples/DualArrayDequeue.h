@@ -40,40 +40,6 @@ public:
 		back.n = 0;
 	}
 
-	// Print a description of the data structure
-	std::string typeDesc() {
-        return "2.5 | DualArrayDeque: Building a Deque from Two Stacks";
-    }
-
-	// Test the data structure
-	void test() {
-		std::cout << "===" << std::endl;
-		std::cout << this->typeDesc() << std::endl;
-		std::cout << "===" << std::endl;
-
-		this->add(0, 1);
-		std::cout << "DualArrayQueue.add(0, 1) = " << this->get(0) << std::endl;
-		std::cout << "DualArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		this->add(1, 2);
-		std::cout << "DualArrayQueue.add(1, 2) = " << this->get(1) << std::endl;
-		std::cout << "DualArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		this->add(2, 3);
-		std::cout << "DualArrayQueue.add(2, 3) = " << this->get(2) << std::endl;
-		std::cout << "DualArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		std::cout << "DualArrayQueue.remove(0) = " << this->remove(0) << std::endl;
-		std::cout << "DualArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		std::cout << "DualArrayQueue.get(1) = " << this->get(1) << std::endl;
-		std::cout << "DualArrayQueue.set(1, 4) = " << this->set(1, 4) << std::endl;
-	}
-
 	// get(i)
 	// The front ArrayStack stores the list of elements whose indices are
 	// [0, ..., front.size() - 1], but stores them in reverse order.
@@ -206,6 +172,71 @@ public:
 			back.a = ab;
 			back.n = nb;
 		}
+	}
+
+	// ===
+	// TESTING
+	// ===
+
+	// Print a description of the data structure
+	std::string typeDesc() {
+        return "2.5 | DualArrayDeque: Building a Deque from Two Stacks";
+    }
+
+	// Test the data structure
+	void test() {
+		std::cout << "===" << std::endl;
+		std::cout << this->typeDesc() << std::endl;
+		std::cout << "===" << std::endl;
+		std::cout << std::endl;
+
+		this->add(0, 1);
+		std::cout << "DualArrayDeque.add(index: 0, value: 1)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->add(1, 2);
+		std::cout << "DualArrayDeque.add(index: 1, value: 2)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->add(2, 3);
+		std::cout << "DualArrayDeque.add(index: 2, value: 3)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->remove(0);
+		std::cout << "DualArrayDeque.remove(0)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		std::cout << "DualArrayDeque.get(index: 1) = " << this->get(1) << std::endl;
+		std::cout << "DualArrayDeque.set(index: 1, value: 4) = " << this->set(1, 4) << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+	}
+
+	void printAllElements() {
+		std::cout << "\t> Contains Elements: [";
+
+		for (int i = 0; i < this->size(); i++) {
+			if (this->size() == 1 || i == this->size() - 1) {
+				std::cout << this->get(i);
+				continue;
+			}
+			std::cout << this->get(i) << ", ";
+		}
+		std::cout << "]" << std::endl;
+		std::cout << std::endl;
 	}
 };
 

@@ -32,40 +32,6 @@ public:
 
 	FastArrayStack() : a(n = 0) {}
 
-	// Print a description of the data structure
-	std::string typeDesc() {
-        return "2.2 | FastArrayStack: An Optimized ArrayStack";
-    }
-
-	// Test the data structure
-	void test() {
-		std::cout << "===" << std::endl;
-		std::cout << this->typeDesc() << std::endl;
-		std::cout << "===" << std::endl;
-
-		this->add(0, 1);
-		std::cout << "FastArrayStack.add(0, 1)" << std::endl;
-		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		this->add(1, 2);
-		std::cout << "FastArrayStack.add(1, 2)" << std::endl;
-		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		this->add(2, 3);
-		std::cout << "FastArrayStack.add(2, 3)" << std::endl;
-		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		std::cout << "FastArrayStack.remove(1) = " << this->remove(1) << std::endl;
-		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		std::cout << "FastArrayStack.get(1) = " << this->get(1) << std::endl;
-		std::cout << "FastArrayStack.set(1, 4) = " << this->set(1, 4) << std::endl;
-	}
-
 	// get(i)
 	T get(int i) {
 		return a[i];
@@ -138,6 +104,71 @@ public:
 
 		// Set backing array a to new backing array b
 		a = b;
+	}
+
+	// ===
+	// TESTING
+	// ===
+
+	// Print a description of the data structure
+	std::string typeDesc() {
+    	return "2.2 | FastArrayStack: An Optimized ArrayStack";
+    }
+
+	// Test the data structure
+	void test() {
+		std::cout << "===" << std::endl;
+		std::cout << this->typeDesc() << std::endl;
+		std::cout << "===" << std::endl;
+		std::cout << std::endl;
+
+		this->add(0, 1);
+		std::cout << "FastArrayStack.add(index: 0, value: 1)" << std::endl;
+		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->add(1, 2);
+		std::cout << "FastArrayStack.add(index: 1, value: 2)" << std::endl;
+		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->add(2, 3);
+		std::cout << "FastArrayStack.add(index: 2, value: 3)" << std::endl;
+		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->remove(0);
+		std::cout << "FastArrayStack.remove(index: 0)" << std::endl;
+		std::cout << "FastArrayStack.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		std::cout << "FastArrayStack.get(index: 1) = " << this->get(1) << std::endl;
+		std::cout << "FastArrayStack.set(index: 1, value: 4) = " << this->set(1, 4) << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+	}
+
+	void printAllElements() {
+		std::cout << "\t> Contains Elements: [";
+
+		for (int i = 0; i < this->size(); i++) {
+			if (this->size() == 1 || i == this->size() - 1) {
+				std::cout << this->get(i);
+				continue;
+			}
+			std::cout << this->get(i) << ", ";
+		}
+		std::cout << "]" << std::endl;
+		std::cout << std::endl;
 	}
 };
 

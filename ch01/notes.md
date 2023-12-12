@@ -50,6 +50,17 @@ An **implementation** describes how the data structure does it.
   - LIFO (also called a Stack)
   - Priority Queue (Smallest element removed)
 
+### Dequeue
+
+- Short for "double-ended queue"
+- Supports two operations:
+  - addFirst(x)
+  - addLast(x)
+  - removeFirst()
+  - removeLast()
+- Think of `first` as furthest left (index 0) and `last` as furthest right
+  (index n).
+
 ## C++ STD Template Library Classes
 
 ### Queue

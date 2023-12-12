@@ -41,40 +41,6 @@ public:
 
 	ArrayQueue() : a(n = 0) {}
 
-	// Print a description of the data structure
-	std::string typeDesc() {
-        return "2.3 | ArrayQueue: An Array-Based Queue";
-    }
-
-	// Test the data structure
-	void test() {
-		std::cout << "===" << std::endl;
-		std::cout << this->typeDesc() << std::endl;
-		std::cout << "===" << std::endl;
-
-		this->add(1);
-		std::cout << "ArrayQueue.add(1)" << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		this->add(2);
-		std::cout << "ArrayQueue.add(2)" << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		this->add(3);
-		std::cout << "ArrayQueue.add(3)" << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		std::cout << "ArrayQueue.remove() = " << this->remove() << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
-
-		std::cout << "ArrayQueue.get(1) = " << this->get(1) << std::endl;
-		std::cout << "ArrayQueue.set(1, 4) = " << this->set(1, 4) << std::endl;
-	}
-
 	// get(i)
 	T get(int i) {
 		return a[i];
@@ -144,6 +110,71 @@ public:
 
 		// Set the value of j back to 0
 		j = 0;
+	}
+
+	// ===
+	// TESTING
+	// ===
+
+	// Print a description of the data structure
+	std::string typeDesc() {
+        return "2.3 | ArrayQueue: An Array-Based Queue";
+    }
+
+	// Test the data structure
+	void test() {
+		std::cout << "===" << std::endl;
+		std::cout << this->typeDesc() << std::endl;
+		std::cout << "===" << std::endl;
+		std::cout << std::endl;
+
+		this->add(1);
+		std::cout << "ArrayQueue.add(value: 1)" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->add(2);
+		std::cout << "ArrayQueue.add(value: 2)" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->add(3);
+		std::cout << "ArrayQueue.add(3)" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		this->remove();
+		std::cout << "ArrayQueue.remove()" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+
+		std::cout << "ArrayQueue.get(1) = " << this->get(1) << std::endl;
+		std::cout << "ArrayQueue.set(1, 4) = " << this->set(1, 4) << std::endl;
+		std::cout << std::endl;
+
+		this->printAllElements();
+	}
+
+	void printAllElements() {
+		std::cout << "\t> Contains Elements: [";
+
+		for (int i = 0; i < this->size(); i++) {
+			if (this->size() == 1 || i == this->size() - 1) {
+				std::cout << this->get(i);
+				continue;
+			}
+			std::cout << this->get(i) << ", ";
+		}
+		std::cout << "]" << std::endl;
+		std::cout << std::endl;
 	}
 };
 
