@@ -1,43 +1,14 @@
 #ifndef ROOTISHARRAYSTACK_H
 #define ROOTISHARRAYSTACK_H
 
-#include "./array.h"
 #include "./ArrayStack.h"
-#include <algorithm>
 #include <cmath>
-#include <iostream>
-#include <string>
 
 // ===
 // RootishArrayStack
 // ===
-
-/**
- * Addresses the problem of wasted space by storing n elements in O(sqrt(n))
- * arrays where at most O(sqrt(n)) array locations are unused at any time.
- *
- * As all the remaining array locations are used to store data, these data
- * structures waste at most O(sqrt(n)) space when storing n elements.
- *
- * This data structure stores its elements in a list of r arrays called `blocks`
- * that are numbered [0, 1, ..., r - 1]. Block b contains b + 1 elements.
- *
- * Therefore, all r blocks contain a total of:
- *
- * 		1 + 2 + 3 + ... + r = r(r + 1) / 2
- *
- * elements.
- *
- * Ignoring the cost of calls to resize() and balance(), an ArrayDequeue
- * supports:
- * 
- * 	- get(i) and set(i, x) in O(1) time per operation; and
- * 	- add(i, x) and remove(i) in O(1 + min{i, n - i}) time per operation
- *
- * Further, beginning with an empty DualArrayDequeue, performing any sequence
- * of m add(i, x) and remove(i) operations results in a total of O(m) time
- * spent during all calls to resize() and balance().
- */
+// Addresses the problem of wasted space by storing n elements in O(sqrt(n))
+// arrays where at most O(sqrt(n)) array locations are unused at any time.
 template <typename T>
 class RootishArrayStack {
 public:
@@ -46,6 +17,8 @@ public:
 
 	RootishArrayStack() : n(0) {}
 
+	// i2b(i)
+	// Determine which block b contains i using a quadratic equation.
 	int i2b(int i) {
 		double db = (-3.0 + sqrt(9 + 8*i)) / 2.0;
 		int b = (int)ceil(db);
@@ -54,16 +27,26 @@ public:
 
 	// get(i)
 	T get(int i) {
+		// Calculate which block contains the indexed value.
 		int b = i2b(i);
-		int j = i - b*(b+1)/2;
+
+		// Get the index j of the value within the block and return the value.
+		int j = i - b*(b + 1)/2;
 		return blocks.get(b)[j];
 	}
 
-	// set(x, i)
+	// set(i, x)
 	T set(int i, T x) {
+		// Calculate which block contains the indexed value.
 		int b = i2b(i);
-		int j = i - b*(b+1)/2;
-		T &y = blocks.get(b)[j];
+
+		// Calculate the index within the block.
+		int j = i - b*(b + 1)/2;
+
+		// Store the current indexed value
+		T y = blocks.get(b)[j];
+
+		// Update the indexed element to the new value x and return the old value.
 		blocks.get(b)[j] = x;
 		return y;
 	}
@@ -77,33 +60,44 @@ public:
 		return n;
 	}
 
-	// add(x)
+	// add(i, x)
+	// Ignoring the cost of the grow() operation, the cost of add(i, x) is
+	// dominated by shifting values and is therefore O(1 + n - i).
 	void add(int i, T x) {
+		// Check size of blocks to determine if the data structure is full.
+		// If full, the grow() operation adds an additional block.
 		int r = blocks.size();
-
 		if (r*(r + 1)/2 < n + 1) grow();
 
 		n++;
-		
+
+		// Shift elements [i:n-1] one position to the right.
 		for (int j = n - 1; j > i; j--) {
 			set(j, get(j - 1));
 		}
 
+		// Set the new value at the given index i.
 		set(i, x);
 	}
 
-	// remove()
+	// remove(i)
+	// Ignoring the cost of the shrink() operation, the cost of remove(i) is
+	// dominated by shifting values and is therefore O(n - i).
 	T remove(int i) {
 		T x  = get(i);
 
+		// Shift the elements [i+1:n] one position to the left.
 		for (int j = i; j < n - 1; j++) {
 			set(j, get(j+1));
 		}
 
 		n--;
 
+		// Check size of blocks to determine if the data structure contains more
+		// than one empty block.
+		// If so, the shrink() operation removes all but one of the unused
+		// blocks.
 		int r = blocks.size();
-
 		if ((r - 2) * (r - 1)/2 >= n) shrink();
 
 		return x;
@@ -114,11 +108,13 @@ public:
 	// ===
 
 	// grow()
+	// Adds a new block to the data structure.
 	void grow() {
 		blocks.add(blocks.size(), new T[blocks.size() + 1]);
 	}
 
 	// shrink()
+	// Removes unused blocks from the data structure.
 	void shrink() {
 		int r = blocks.size();
 
@@ -173,7 +169,9 @@ public:
 		this->printAllElements();
 
 		std::cout << "RootishArrayStack.get(index: 1) = " << this->get(1) << std::endl;
-		std::cout << "RootishArrayStack.set(index: 1, value: 4) = " << this->set(1, 4) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "RootishArrayStack.set(index: 1, value: 4)" << std::endl;
 		std::cout << std::endl;
 
 		this->printAllElements();

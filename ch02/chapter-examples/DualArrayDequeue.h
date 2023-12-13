@@ -1,34 +1,13 @@
 #ifndef DUALARRAYDEQUEUE_H
 #define DUALARRAYDEQUEUE_H
 
-#include "./array.h"
 #include "./ArrayStack.h"
-#include <algorithm>
-#include <iostream>
-#include <string>
 
 // ===
 // DualArrayDequeue
 // ===
-
-/**
- * Achieves the same performance bounds as an ArrayDequeue by using two
- * ArrayStacks.
- *
- * Represents a List using two ArrayStacks. As an ArrayStack is fast when its
- * operations modify elements near the end, a DualArrayDequeue places two
- * ArrayStacks back-to-back so that operations are fast on either end.
- *
- * Ignoring the cost of calls to resize() and balance(), an ArrayDequeue
- * supports:
- * 
- * 	- get(i) and set(i, x) in O(1) time per operation; and
- * 	- add(i, x) and remove(i) in O(1 + min{i, n - i}) time per operation
- *
- * Further, beginning with an empty DualArrayDequeue, performing any sequence
- * of m add(i, x) and remove(i) operations results in a total of O(m) time
- * spent during all calls to resize() and balance().
- */
+// Achieves the same performance bounds as an ArrayDequeue by using two
+// ArrayStacks.
 template <typename T>
 class DualArrayDequeue {
 public:
@@ -219,7 +198,9 @@ public:
 		this->printAllElements();
 
 		std::cout << "DualArrayDeque.get(index: 1) = " << this->get(1) << std::endl;
-		std::cout << "DualArrayDeque.set(index: 1, value: 4) = " << this->set(1, 4) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "DualArrayDeque.set(index: 1, value: 4)" << std::endl;
 		std::cout << std::endl;
 
 		this->printAllElements();

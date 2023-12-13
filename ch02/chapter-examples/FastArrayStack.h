@@ -2,28 +2,12 @@
 #define FASTARRAYSTACK_H
 
 #include "./array.h"
-#include <algorithm>
 #include <iostream>
-#include <string>
 
 // ===
 // FastArrayStack
 // ===
-
-/**
- * Implements the List interface using a backing array.
- * Ignoring the cost of calls to resize, an ArrayStack supports:
- * 
- * 	- get(i) and set(i, x) in O(1) time per operation; and
- * 	- add(i, x) and remove(i) in O(1 + n - i) time per operation
- *
- * Further, beginning with an empty ArrayStack, performing any sequence
- * of m add(i, x) and remove(i) operations results in a total of O(m) time
- * cost per resize operation (amortized analysis).
- *
- * Stack operations push(x) and pop() can be implemented as add(n, x) and
- * remove(n -1), respectively, in O(1) amortized time.
- */
+// Implements the List interface using a backing array.
 template <typename T>
 class FastArrayStack {
 public:
@@ -39,7 +23,7 @@ public:
 
 	// set(i, x)
 	T set(int i, T x) {
-		T &y = a[i];
+		T y = a[i];
 		a[i] = x;
 		return y;
 	}
@@ -151,7 +135,9 @@ public:
 		this->printAllElements();
 
 		std::cout << "FastArrayStack.get(index: 1) = " << this->get(1) << std::endl;
-		std::cout << "FastArrayStack.set(index: 1, value: 4) = " << this->set(1, 4) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "FastArrayStack.set(index: 1, value: 4)" << std::endl;
 		std::cout << std::endl;
 
 		this->printAllElements();

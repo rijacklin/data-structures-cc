@@ -2,36 +2,12 @@
 #define ARRAYQUEUE_H
 
 #include "./array.h"
-#include <algorithm>
 #include <iostream>
-#include <string>
 
 // ===
 // ArrayQueue
 // ===
-
-/**
- * Implements the (FIFO) Queue interface using a backing array.
- * Allows for efficient addition to one end of the sequence and removal from
- * the other end.
- *
- * Elements are removed (using remove()) in the same order they are added (using
- * add(x))
- *
- * Ignoring the cost of calls to resize, an ArrayStack supports:
- * 
- * 	- add(x) and remove() in O(1) time per operation
- *
- * Further, beginning with an empty ArrayQueue, performing any sequence
- * of m add(i, x) and remove(i) operations results in a total of O(m) time
- * cost per resize operation (amortized analysis).
- *
- * Using modular arithmetic, array queue simulates an infinite array as
- * i % a.length always gives a value in the range 0, ..., a.length - 1.
- *
- * Array a is treated like a circular array in which indices larger than
- * a.length - 1 "wrap around" to the beginning of the array.
- */
+// Implements the (FIFO) Queue interface using a backing array.
 template <typename T>
 class ArrayQueue {
 public:
@@ -48,7 +24,7 @@ public:
 
 	// set(i, x)
 	T set(int i, T x) {
-		T &y = a[i];
+		T y = a[i];
 		a[i] = x;
 		return y;
 	}
@@ -156,8 +132,10 @@ public:
 
 		this->printAllElements();
 
-		std::cout << "ArrayQueue.get(1) = " << this->get(1) << std::endl;
-		std::cout << "ArrayQueue.set(1, 4) = " << this->set(1, 4) << std::endl;
+		std::cout << "ArrayQueue.get(index: 1) = " << this->get(1) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "ArrayQueue.set(index: 1, value: 4)" << std::endl;
 		std::cout << std::endl;
 
 		this->printAllElements();

@@ -52,14 +52,27 @@ An **implementation** describes how the data structure does it.
 
 ### Dequeue
 
-- Short for "double-ended queue"
-- Supports two operations:
+- Short for "double-ended queue".
+- Supports four operations:
   - addFirst(x)
   - addLast(x)
   - removeFirst()
   - removeLast()
 - Think of `first` as furthest left (index 0) and `last` as furthest right
   (index n).
+
+### Map
+
+- Maps a set of keys (unique) onto values.
+- Supports four operations:
+  - get(k) - Returns the value associated with the key (k)
+  - put(k, v) - Associates the value (v) with the key (k)
+  - remove(k) - Removes the key (k) from the key set
+  - containsKey(k) - Can be used as a guard (ex. check before get(k))
+
+### Sorted Map
+
+- A Map in which the key set is a sorted set.
 
 ## C++ STD Template Library Classes
 

@@ -2,29 +2,13 @@
 #define ARRAYDEQUEUE_H
 
 #include "./array.h"
-#include <algorithm>
 #include <iostream>
-#include <string>
 
 // ===
 // ArrayDequeue
 // ===
-
-/**
- * Implements the List interface by using the same circular array technique
- * used to represent an ArrayQueue.
- *
- * Allows for efficient addition and removal at both ends.
- *
- * Ignoring the cost of calls to resize, an ArrayDequeue supports:
- * 
- * 	- get(i) and set(i, x) in O(1) time per operation; and
- * 	- add(i, x) and remove(i) in O(1 + min{i, n - i}) time per operation
- *
- * Further, beginning with an empty ArrayDequeue, performing any sequence
- * of m add(i, x) and remove(i) operations results in a total of O(m) time
- * cost per resize operation (amortized analysis).
- */
+// Implements the List interface by using the same circular array technique
+// used to represent an ArrayQueue.
 template <typename T>
 class ArrayDequeue {
 public:
@@ -41,7 +25,7 @@ public:
 
 	// set(x, i)
 	T set(int i, T x) {
-		T &y = a[(j+i)%a.length];
+		T y = a[(j+i)%a.length];
 		a[(j+i)%a.length] = x;
 		return y;
 	}
@@ -181,7 +165,9 @@ public:
 		this->printAllElements();
 
 		std::cout << "ArrayDeque.get(index: 1) = " << this->get(1) << std::endl;
-		std::cout << "ArrayDeque.set(index: 1, value: 4) = " << this->set(1, 4) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "ArrayDeque.set(index: 1, value: 4)" << std::endl;
 		std::cout << std::endl;
 
 		this->printAllElements();
