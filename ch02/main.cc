@@ -8,7 +8,7 @@
 #include "./chapter-examples/RootishArrayStack.h"
 
 int main() {
-	DualArrayDequeue<int> stack;
+	ArrayQueue<int> stack;
 	stack.test();
 
 	return 0;
