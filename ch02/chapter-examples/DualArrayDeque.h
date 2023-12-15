@@ -1,25 +1,32 @@
-#ifndef DUALARRAYDEQUEUE_H
-#define DUALARRAYDEQUEUE_H
+#ifndef DUALARRAYDEQUE_H
+#define DUALARRAYDEQUE_H
 
 #include "./ArrayStack.h"
 
-// ===
-// DualArrayDequeue
-// ===
-// Achieves the same performance bounds as an ArrayDequeue by using two
-// ArrayStacks.
+// Achieves the same performance bounds as an ArrayDequeue with two ArrayStacks.
 template <typename T>
-class DualArrayDequeue {
+class DualArrayDeque {
 public:
 	ArrayStack<T> front;
 	ArrayStack<T> back;
 
-	DualArrayDequeue() {
+	DualArrayDeque() {
 		front.n = 0;
 		back.n = 0;
 	}
 
-	// get(i)
+	// Calculates the number of elements conatined using the size() function of
+	// the two ArrayStacks rather than storing a variable n.
+	// Calls to get(i) and set(i, x), regardless of front or back, takes O(1)
+	// time per operation.
+	int size() {
+		return front.size() + back.size();
+	}
+
+	// ===
+	// BASICS
+	// ===
+
 	// The front ArrayStack stores the list of elements whose indices are
 	// [0, ..., front.size() - 1], but stores them in reverse order.
 	// The back ArrayStack stores the list of elements whose indices are
@@ -36,7 +43,6 @@ public:
 		}
 	}
 
-	// set(x, i)
 	T set(int i, T x) {
 		// If i is contained in the front array, set the value in the front
 		// array.
@@ -46,19 +52,6 @@ public:
 		} else {
 			return back.set(i - front.size(), x);
 		}
-	}
-
-	// ===
-	// BASICS
-	// ===
-
-	// size()
-	// Calculates the number of elements conatined using the size() function of
-	// the two ArrayStacks rather than storing a variable n.
-	// Calls to get(i) and set(i, x), regardless of front or back, takes O(1)
-	// time per operation.
-	int size() {
-		return front.size() + back.size();
 	}
 
 	// add(x)
@@ -88,7 +81,6 @@ public:
 		balance();
 	}
 
-	// remove()
 	// Elements are removed from either the front or back, as appropriate.
 	//
 	// Removing from the front occurs when i < n/4. Removing from the back
@@ -157,43 +149,38 @@ public:
 	// TESTING
 	// ===
 
-	// Print a description of the data structure
+	// Print a description of the data structure.
 	std::string typeDesc() {
         return "2.5 | DualArrayDeque: Building a Deque from Two Stacks";
     }
 
-	// Test the data structure
+	// Test the data structure.
 	void test() {
 		std::cout << "===" << std::endl;
 		std::cout << this->typeDesc() << std::endl;
 		std::cout << "===" << std::endl;
-		std::cout << std::endl;
 
 		this->add(0, 1);
 		std::cout << "DualArrayDeque.add(index: 0, value: 1)" << std::endl;
 		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
 
 		this->printAllElements();
 
 		this->add(1, 2);
 		std::cout << "DualArrayDeque.add(index: 1, value: 2)" << std::endl;
 		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
 
 		this->printAllElements();
 
 		this->add(2, 3);
 		std::cout << "DualArrayDeque.add(index: 2, value: 3)" << std::endl;
 		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
 
 		this->printAllElements();
 
 		this->remove(0);
 		std::cout << "DualArrayDeque.remove(0)" << std::endl;
 		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-		std::cout << std::endl;
 
 		this->printAllElements();
 
@@ -201,11 +188,11 @@ public:
 
 		this->set(1, 4);
 		std::cout << "DualArrayDeque.set(index: 1, value: 4)" << std::endl;
-		std::cout << std::endl;
 
 		this->printAllElements();
 	}
 
+	// Print all elements in the data structure.
 	void printAllElements() {
 		std::cout << "\t> Contains Elements: [";
 

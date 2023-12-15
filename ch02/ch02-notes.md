@@ -45,14 +45,14 @@ amortized over m operations.
   keep track of the number of elements actually stored in a. In this way, the
   list elements are stored in a[0], ..., a[n-1], and at all times a.length >= n.
 
-### Theorem about Array Stacks
+### Theorem
 
 - Ignoring the cost of calls to resize, an ArrayStack supports:
 
   - get(i) and set(i, x) in O(1) time per operation; and
   - add(i, x) and remove(i) in O(1 + n - i) time per operation
 
-- Further, if we start with an empty ArrayStack, performing any sequence
+- Furthermore, if we start with an empty ArrayStack, performing any sequence
   of m add(i, x) and remove(i) operations results in a total of O(m) time
   cost per resize operation (amortized analysis).
 
@@ -97,57 +97,87 @@ amortized over m operations.
 
 ## 2.2 | FastArrayStack: An Optimized ArrayStack
 
-- Implements the List interface using a backing array.
-  Ignoring the cost of calls to resize, an ArrayStack supports:
+- Same as ArrayStack above but uses the more efficient C++ standard library
+  function `std::copy(a0, a1, b)` for copying operations.
 
-  - get(i) and set(i, x) in O(1) time per operation; and
-  - add(i, x) and remove(i) in O(1 + n - i) time per operation
+- Although the function does not asymptotically decrease the running time, it
+  can stil be a worthwhile optimization.
 
-- Further, beginning with an empty ArrayStack, performing any sequence
-  of m add(i, x) and remove(i) operations results in a total of O(m) time
-  cost per resize operation (amortized analysis).
-
-- Stack operations push(x) and pop() can be implemented as add(n, x) and
-  remove(n -1), respectively, in O(1) amortized time.
+---
 
 ## 2.3 | ArrayQueue: An Array-Based Queue
 
 - Implements the (FIFO) Queue interface using a backing array.
-  Allows for efficient addition to one end of the sequence and removal from
+
+- Allows for efficient addition to one end of the sequence and removal from
   the other end.
+
+  - `n` is the number of elements in the data structure.
+  - `j` is the head of the Queue.
+  - `j + n - 1` is the (implicit) tail of the Queue.
+  - All of the values in between the head and tail are represented by modulo
+    a.length (the elements wrap around the ends as necessary).
 
 - Elements are removed (using remove()) in the same order they are added (using
   add(x))
 
-- Ignoring the cost of calls to resize, an ArrayStack supports:
+### Theorem
+
+- Implements the (FIFO) Queue interface.
+
+- Ignoring the cost of calls to resize, an ArrayQueue supports:
 
   - add(x) and remove() in O(1) time per operation
 
-- Further, beginning with an empty ArrayQueue, performing any sequence
-  of m add(i, x) and remove(i) operations results in a total of O(m) time
-  cost per resize operation (amortized analysis).
+- Furthermore, beginning with an empty ArrayQueue, performing any sequence of m
+  add(x) and remove() operations results in a total of O(m) time cost per resize
+  operation (amortized analysis).
+
+### Calculations
 
 - Using modular arithmetic, array queue simulates an infinite array as
   i % a.length always gives a value in the range 0, ..., a.length - 1.
 
+  - `a === r (mod n)` can be written as `a = k * n + r` (where r is remainder).
+  - Solving this equation, `a - r = k * n` or `n / (a - r)` (meaning `a - r` is
+    a multiple of n).
+
 - Array a is treated like a circular array in which indices larger than
   a.length - 1 "wrap around" to the beginning of the array.
 
+---
+
 ## 2.4 | ArrayDequeue: Fast Deque Operations Using an Array
 
-- Implements the List interface by using the same circular array technique
-  used to represent an ArrayQueue.
+- Implements the full List interface by using the same circular array technique
+  used to represent an ArrayQueue:
 
-- Allows for efficient addition and removal at both ends.
+  - get(i) | return a[j+i % a.length]
+  - set(i, x) | a[j+i % a.length] = x
+  - add(i, x) | Check if resize() needed, if i < n/2 shift elements left,
+    otherwise shift elements right, then set the index to x and increment n.
+  - remove(i) |
+
+- Allows for fast / efficient addition and removal at both ends.
+
+  - `n` is the number of elements in the data structure.
+  - `j` is the head of the Queue.
+  - `j + n - 1` is the (implicit) tail of the Queue.
+  - All of the values in between the head and tail are represented by modulo
+    a.length (the elements wrap around the ends as necessary).
+
+### Theorem
 
 - Ignoring the cost of calls to resize, an ArrayDequeue supports:
 
   - get(i) and set(i, x) in O(1) time per operation; and
   - add(i, x) and remove(i) in O(1 + min{i, n - i}) time per operation
 
-- Further, beginning with an empty ArrayDequeue, performing any sequence
+- Furthermore, beginning with an empty ArrayDequeue, performing any sequence
   of m add(i, x) and remove(i) operations results in a total of O(m) time
   cost per resize operation (amortized analysis).
+
+---
 
 ## 2.5 | DualArrayDequeue: Building a Deque from Two Stacks
 
@@ -164,7 +194,7 @@ amortized over m operations.
   - get(i) and set(i, x) in O(1) time per operation; and
   - add(i, x) and remove(i) in O(1 + min{i, n - i}) time per operation
 
-- Further, beginning with an empty DualArrayDequeue, performing any sequence
+- Furthermore, beginning with an empty DualArrayDequeue, performing any sequence
   of m add(i, x) and remove(i) operations results in a total of O(m) time
   spent during all calls to resize() and balance().
 
@@ -185,7 +215,7 @@ amortized over m operations.
   - get(i) and set(i, x) in O(n - i) time per operation; and
   - add(i, x) and remove(i) in O(n - i) ime per operation
 
-- Further, beginning with an empty RootishArrayStack, performing any sequence
+- Furthermore, beginning with an empty RootishArrayStack, performing any sequence
   of m add(i, x) and remove(i) operations results in a total of O(m) time
   spent during all calls to grow() and shrink().
 

@@ -4,7 +4,7 @@
 #include "./array.h"
 #include <iostream>
 
-// Implements the (FIFO) Queue interface using a backing array.
+// Implements FIFO Queue interface with a ciruclar array using modular arithmetic.
 template <typename T>
 class ArrayQueue {
 public:
@@ -37,9 +37,8 @@ public:
 	}
 
 	bool add(T x) {
-		// Check if a is already full.
-		// If so, resize so that a.length > n.
-		if (n + 1 > a.length) resize();
+		// Check if a is already full. If so, resize so that a.length > n.
+		if (n+1 > a.length) resize();
 
 		// Set a[(j+n)/%a.length] equal to x and increment n.
 		a[(j+n)%a.length] = x;
@@ -53,11 +52,13 @@ public:
 		T x = a[j];
 
 		// Increment j (modulo a.length) and decrement n.
-		j = (j + 1) % a.length;
+		j = (j+1) % a.length;
+
+		// Decrement n.
 		n--;
 
 		// Check if n is getting too small.
-		if (a.length >= 3 * n) resize();
+		if (a.length >= 3*n) resize();
 
 		return x;
 	}
@@ -66,10 +67,9 @@ public:
 	// GROWING / SHRINKING
 	// ===
 	
-	// Operation is O(n)
 	void resize() {
 		// Create a new array that is double the size of the backing array.
-		array<T> b(std::max(2 * n, 1));
+		array<T> b(std::max(2*n, 1));
 
 		// Copy n elements from a to b.
 		for (int k = 0; k < n; k++) {
