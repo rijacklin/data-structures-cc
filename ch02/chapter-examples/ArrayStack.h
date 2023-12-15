@@ -1,12 +1,16 @@
-#ifndef ARRAYSTACK_H
-#define ARRAYSTACK_H
+#ifndef ARRAY_STACK_H
+#define ARRAY_STACK_H
 
 #include "./array.h"
 #include <iostream>
 
+// Forward declaration of TestableDataStructure.
+template <typename T>
+class TestableDataStructure;
+
 // Implements the List interface using a backing array.
 template <typename T>
-class ArrayStack {
+class ArrayStack : public TestableDataStructure<T> {
 public:
 	array<T> a;
 	int n;
@@ -17,9 +21,7 @@ public:
 		return n;
 	}
 
-	// ===
-	// BASICS
-	// ===
+	// === BASICS ===
 
 	T get(int i) {
 		// Return the value at index i.
@@ -35,9 +37,6 @@ public:
 		return y;
 	}
 
-	// The cost of this operation is proportional to the number elements that
-	// need to be shifted to insert x.
-	// Therefore, this operation is O(n - i) (ignoring cost to resize a).
 	void add(int i, T x) {
 		// Check if a is already full. If so, resize so that a.length > n.
 		if (n + 1 > a.length) resize();
@@ -52,9 +51,6 @@ public:
 		n++;
 	}
 
-	// The cost of this operation is proportional to the number elements that
-	// need to be shifted to insert x.
-	// Therefore, this operation is O(n - i) (ignoring cost to resize a).
 	T remove(int i) {
 		// Store the value of index i.
 		T x = a[i];
@@ -73,12 +69,8 @@ public:
 		return x;
 	}
 
-	// ===
-	// GROWING / SHRINKING
-	// ===
+	// === GROWING / SHRINKING ===
 	
-	// If the array is full before an add(i, x) operation, or more than 2/3
-	// empty after a remove(i) operation, then resize the array to be half.
 	void resize() {
 		// Create a new array of size 2n.
 		array<T> b(std::max(2*n, 1));
@@ -92,67 +84,11 @@ public:
 		a = b;
 	}
 
-	// ===
-	// TESTING
-	// ===
+	// === TESTING ===
 
-	// Print a description of the data structure.
-	std::string typeDesc() {
-    	return "2.1 | ArrayStack: Fast Stack Operations Using an Array";
-    }
-
-	// Test the data structure.
-	void test() {
-		std::cout << "===" << std::endl;
-		std::cout << this->typeDesc() << std::endl;
-		std::cout << "===" << std::endl;
-
-		this->add(0, 1);
-		std::cout << "ArrayStack.add(index: 0, value: 1)" << std::endl;
-		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(1, 2);
-		std::cout << "ArrayStack.add(index: 1, value: 2)" << std::endl;
-		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(2, 3);
-		std::cout << "ArrayStack.add(index: 2, value: 3)" << std::endl;
-		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->remove(0);
-		std::cout << "ArrayStack.remove(index: 0)" << std::endl;
-		std::cout << "ArrayStack.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		std::cout << "ArrayStack.get(index: 1) = " << this->get(1) << std::endl;
-
-		this->set(1, 4);
-		std::cout << "ArrayStack.set(index: 1, value: 4)" << std::endl;
-
-		this->printAllElements();
-	}
-
-	// Print all elements in the data structure.
-	void printAllElements() {
-		std::cout << "\t> Contains Elements: [";
-
-		for (int i = 0; i < this->size(); i++) {
-			if (this->size() == 1 || i == this->size() - 1) {
-				std::cout << this->get(i);
-				continue;
-			}
-			std::cout << this->get(i) << ", ";
-		}
-		std::cout << "]" << std::endl;
-		std::cout << std::endl;
-	}
+	std::string typeDesc() override;
+	void test() override;
+	void printAllElements() override ;
 };
 
-#endif // ARRAYSTACK_H
+#endif // ARRAY_STACK_H

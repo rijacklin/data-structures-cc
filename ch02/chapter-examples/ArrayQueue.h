@@ -1,12 +1,16 @@
-#ifndef ARRAYQUEUE_H
-#define ARRAYQUEUE_H
+#ifndef ARRAY_QUEUE_H
+#define ARRAY_QUEUE_H
 
 #include "./array.h"
 #include <iostream>
 
+// Forward declaration of TestableDataStructure.
+template <typename T>
+class TestableDataStructure;
+
 // Implements FIFO Queue interface with a ciruclar array using modular arithmetic.
 template <typename T>
-class ArrayQueue {
+class ArrayQueue : public TestableDataStructure<T> {
 public:
 	array<T> a;
 	int j;
@@ -87,63 +91,9 @@ public:
 	// TESTING
 	// ===
 
-	// Print a description of the data structure.
-	std::string typeDesc() {
-        return "2.3 | ArrayQueue: An Array-Based Queue";
-    }
-
-	// Test the data structure.
-	void test() {
-		std::cout << "===" << std::endl;
-		std::cout << this->typeDesc() << std::endl;
-		std::cout << "===" << std::endl;
-
-		this->add(1);
-		std::cout << "ArrayQueue.add(value: 1)" << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(2);
-		std::cout << "ArrayQueue.add(value: 2)" << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(3);
-		std::cout << "ArrayQueue.add(3)" << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->remove();
-		std::cout << "ArrayQueue.remove()" << std::endl;
-		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		std::cout << "ArrayQueue.get(index: 1) = " << this->get(1) << std::endl;
-
-		this->set(1, 4);
-		std::cout << "ArrayQueue.set(index: 1, value: 4)" << std::endl;
-
-		this->printAllElements();
-	}
-
-	// Print all elements in the data structure.
-	void printAllElements() {
-		std::cout << "\t> Contains Elements: [";
-
-		for (int i = 0; i < this->size(); i++) {
-			if (this->size() == 1 || i == this->size() - 1) {
-				std::cout << this->get(i);
-				continue;
-			}
-			std::cout << this->get(i) << ", ";
-		}
-		std::cout << "]" << std::endl;
-		std::cout << std::endl;
-	}
+	std::string typeDesc() override;
+	void test() override;
+	void printAllElements() override;
 };
 
-#endif // ARRAYQUEUE_H
+#endif // ARRAY_QUEUE_H

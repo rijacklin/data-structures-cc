@@ -1,12 +1,16 @@
-#ifndef ARRAYDEQUE_H
-#define ARRAYDEQUE_H
+#ifndef ARRAY_DEQUE_H
+#define ARRAY_DEQUE_H
 
 #include "./array.h"
 #include <iostream>
 
+// Forward declaration of TestableDataStructure.
+template <typename T>
+class TestableDataStructure;
+
 // Implements the List interface with a ciruclar array using modular arithmetic.
 template <typename T>
-class ArrayDeque {
+class ArrayDeque : public TestableDataStructure<T> {
 public:
 	array<T> a;
 	int j;
@@ -108,63 +112,9 @@ public:
 	// TESTING
 	// ===
 
-	// Print a description of the data structure.
-	std::string typeDesc() {
-        return "2.4 | ArrayDeque: Fast Deque Operations Using an Array";
-    }
-
-	// Test the data structure.
-	void test() {
-		std::cout << "===" << std::endl;
-		std::cout << this->typeDesc() << std::endl;
-		std::cout << "===" << std::endl;
-
-		this->add(0, 1);
-		std::cout << "ArrayDeque.add(index: 0, value: 1)" << std::endl;
-		std::cout << "ArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(1, 2);
-		std::cout << "ArrayDeque.add(index: 1, value: 2)" << std::endl;
-		std::cout << "ArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(2, 3);
-		std::cout << "ArrayDeque.add(index: 2, value: 3)" << std::endl;
-		std::cout << "ArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->remove(0);
-		std::cout << "ArrayDeque.remove(0)" << std::endl;
-		std::cout << "ArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		std::cout << "ArrayDeque.get(index: 1) = " << this->get(1) << std::endl;
-
-		this->set(1, 4);
-		std::cout << "ArrayDeque.set(index: 1, value: 4)" << std::endl;
-
-		this->printAllElements();
-	}
-
-	// Print all elements in the data structure.
-	void printAllElements() {
-		std::cout << "\t> Contains Elements: [";
-
-		for (int i = 0; i < this->size(); i++) {
-			if (this->size() == 1 || i == this->size() - 1) {
-				std::cout << this->get(i);
-				continue;
-			}
-			std::cout << this->get(i) << ", ";
-		}
-		std::cout << "]" << std::endl;
-		std::cout << std::endl;
-	}
+	std::string typeDesc() override;
+	void test() override;
+	void printAllElements() override;
 };
 
-#endif // ARRAYDEQUEUE_H
+#endif // ARRAY_DEQUE_H

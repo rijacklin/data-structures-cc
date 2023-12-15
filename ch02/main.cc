@@ -6,9 +6,10 @@
 #include "./chapter-examples/ArrayDeque.h"
 #include "./chapter-examples/DualArrayDeque.h"
 #include "./chapter-examples/RootishArrayStack.h"
+#include "./TestableDataStructure.h"
 
 int main() {
-	DualArrayDeque<int> stack;
+	RootishArrayStack<int> stack;
 	stack.test();
 
 	return 0;

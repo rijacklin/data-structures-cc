@@ -1,11 +1,20 @@
-#ifndef DUALARRAYDEQUE_H
-#define DUALARRAYDEQUE_H
+#ifndef DUAL_ARRAY_DEQUE_H
+#define DUAL_ARRAY_DEQUE_H
 
-#include "./ArrayStack.h"
+#include "array.h"
+#include <iostream>
+
+// Forward declaration of ArrayStack.
+template <typename T>
+class ArrayStack;
+
+// Forward declaration of TestableDataStructure.
+template <typename T>
+class TestableDataStructure;
 
 // Achieves the same performance bounds as an ArrayDequeue with two ArrayStacks.
 template <typename T>
-class DualArrayDeque {
+class DualArrayDeque : public TestableDataStructure<T> {
 public:
 	ArrayStack<T> front;
 	ArrayStack<T> back;
@@ -145,67 +154,14 @@ public:
 		}
 	}
 
+
 	// ===
 	// TESTING
 	// ===
 
-	// Print a description of the data structure.
-	std::string typeDesc() {
-        return "2.5 | DualArrayDeque: Building a Deque from Two Stacks";
-    }
-
-	// Test the data structure.
-	void test() {
-		std::cout << "===" << std::endl;
-		std::cout << this->typeDesc() << std::endl;
-		std::cout << "===" << std::endl;
-
-		this->add(0, 1);
-		std::cout << "DualArrayDeque.add(index: 0, value: 1)" << std::endl;
-		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(1, 2);
-		std::cout << "DualArrayDeque.add(index: 1, value: 2)" << std::endl;
-		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->add(2, 3);
-		std::cout << "DualArrayDeque.add(index: 2, value: 3)" << std::endl;
-		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		this->remove(0);
-		std::cout << "DualArrayDeque.remove(0)" << std::endl;
-		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
-
-		this->printAllElements();
-
-		std::cout << "DualArrayDeque.get(index: 1) = " << this->get(1) << std::endl;
-
-		this->set(1, 4);
-		std::cout << "DualArrayDeque.set(index: 1, value: 4)" << std::endl;
-
-		this->printAllElements();
-	}
-
-	// Print all elements in the data structure.
-	void printAllElements() {
-		std::cout << "\t> Contains Elements: [";
-
-		for (int i = 0; i < this->size(); i++) {
-			if (this->size() == 1 || i == this->size() - 1) {
-				std::cout << this->get(i);
-				continue;
-			}
-			std::cout << this->get(i) << ", ";
-		}
-		std::cout << "]" << std::endl;
-		std::cout << std::endl;
-	}
+	std::string typeDesc() override;
+	void test() override;
+	void printAllElements() override;
 };
 
-#endif // DUALARRAYDEQUEUE_H
+#endif // DUAL_ARRAY_DEQUE_H
