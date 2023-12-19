@@ -4,13 +4,13 @@
 #include "./array.h"
 #include <iostream>
 
-// Forward declaration of TestableDataStructure.
+// Forward declaration of PrintableDataStructure
 template <typename T>
-class TestableDataStructure;
+class PrintableDataStructure;
 
-// Implements FIFO Queue interface with a ciruclar array using modular arithmetic.
+// Implements FIFO Queue interface with a ciruclar array using modular arithmetic
 template <typename T>
-class ArrayQueue : public TestableDataStructure<T> {
+class ArrayQueue : public PrintableDataStructure<T> {
 public:
 	array<T> a;
 	int j;
@@ -22,29 +22,27 @@ public:
 		return n;
 	}
 
-	// ===
-	// BASICS
-	// ===
+	// === BASICS ===
 
 	T get(int i) {
-		// Return the value at index i.
+		// Return the value at index i
 		return a[i];
 	}
 
 	T set(int i, T x) {
-		// Store the value of index i.
+		// Store the value of index i
 		T y = a[i];
 
-		// Set a[i] equal to x and return the old value.
+		// Set a[i] equal to x and return the old value
 		a[i] = x;
 		return y;
 	}
 
 	bool add(T x) {
-		// Check if a is already full. If so, resize so that a.length > n.
+		// Check if a is already full. If so, resize so that a.length > n
 		if (n+1 > a.length) resize();
 
-		// Set a[(j+n)/%a.length] equal to x and increment n.
+		// Set a[(j+n)/%a.length] equal to x and increment n
 		a[(j+n)%a.length] = x;
 		n++;
 
@@ -52,47 +50,78 @@ public:
 	}
 
 	T remove() {
-		// Store a[j] so it can be returned later.
+		// Store a[j] so it can be returned later
 		T x = a[j];
 
-		// Increment j (modulo a.length) and decrement n.
+		// Increment j (modulo a.length) and decrement n
 		j = (j+1) % a.length;
 
-		// Decrement n.
+		// Decrement n
 		n--;
 
-		// Check if n is getting too small.
+		// Check if n is getting too small
 		if (a.length >= 3*n) resize();
 
 		return x;
 	}
 
-	// ===
-	// GROWING / SHRINKING
-	// ===
+	// === GROWING / SHRINKING ===
 	
 	void resize() {
-		// Create a new array that is double the size of the backing array.
+		// Create a new array that is double the size of the backing array
 		array<T> b(std::max(2*n, 1));
 
-		// Copy n elements from a to b.
+		// Copy n elements from a to b
 		for (int k = 0; k < n; k++) {
 			b[k] = a[(j+k)%a.length];
 		}
 
-		// Set backing array a to new backing array b.
+		// Set backing array a to new backing array b
 		a = b;
 
-		// Set the value of j back to 0.
+		// Set the value of j back to 0
 		j = 0;
 	}
 
-	// ===
-	// TESTING
-	// ===
+	// === TESTING ===
 
-	std::string typeDesc() override;
-	void test() override;
+	void test() {
+		std::cout << "===" << std::endl;
+		std::cout << "2.3 | ArrayQueue: An Array-Based Queue" << std::endl;
+		std::cout << "===" << std::endl;
+
+		this->add(1);
+		std::cout << "ArrayQueue.add(value: 1)" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->add(2);
+		std::cout << "ArrayQueue.add(value: 2)" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->add(3);
+		std::cout << "ArrayQueue.add(3)" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->remove();
+		std::cout << "ArrayQueue.remove()" << std::endl;
+		std::cout << "ArrayQueue.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		std::cout << "ArrayQueue.get(index: 1) = " << this->get(1) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "ArrayQueue.set(index: 1, value: 4)" << std::endl;
+
+		this->printAllElements();
+	}
+
 	void printAllElements() override;
 };
 

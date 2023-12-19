@@ -8,14 +8,14 @@
 template <typename T>
 class ArrayStack;
 
-// Forward declaration of TestableDataStructure.
+// Forward declaration of PrintableDataStructure.
 template <typename T>
-class TestableDataStructure;
+class PrintableDataStructure;
 
 // Addresses the problem of wasted space by storing n elements in O(sqrt(n))
 // arrays where at most O(sqrt(n)) array locations are unused at any time.
 template <typename T>
-class RootishArrayStack : public TestableDataStructure<T> {
+class RootishArrayStack : public PrintableDataStructure<T> {
 public:
 	ArrayStack<T*> blocks;
 	int n;
@@ -125,8 +125,43 @@ public:
 	// TESTING
 	// ===
 
-	std::string typeDesc() override;
-	void test() override;
+	void test() {
+		std::cout << "===" << std::endl;
+		std::cout << "2.6 | RootishArrayStack: A Space-Efficient Array Stack" << std::endl;
+		std::cout << "===" << std::endl;
+
+		this->add(0, 1);
+		std::cout << "RootishArrayStack.add(index: 0, value: 1)" << std::endl;
+		std::cout << "RootishArrayStack.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->add(1, 2);
+		std::cout << "RootishArrayStack.add(index: 1, value: 2)" << std::endl;
+		std::cout << "RootishArrayStack.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->add(2, 3);
+		std::cout << "RootishArrayStack.add(index: 2, value: 3)" << std::endl;
+		std::cout << "RootishArrayStack.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->remove(0);
+		std::cout << "RootishArrayStack.remove(0)" << std::endl;
+		std::cout << "RootishArrayStack.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		std::cout << "RootishArrayStack.get(index: 1) = " << this->get(1) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "RootishArrayStack.set(index: 1, value: 4)" << std::endl;
+
+		this->printAllElements();
+	}
+
 	void printAllElements() override;
 };
 

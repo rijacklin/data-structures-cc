@@ -47,6 +47,8 @@ amortized over m operations.
 
 ### Theorem
 
+- Implements the List interface.
+
 - Ignoring the cost of calls to resize, an ArrayStack supports:
 
   - get(i) and set(i, x) in O(1) time per operation; and
@@ -168,6 +170,8 @@ amortized over m operations.
 
 ### Theorem
 
+- Implements the List interface.
+
 - Ignoring the cost of calls to resize, an ArrayDequeue supports:
 
   - get(i) and set(i, x) in O(1) time per operation; and
@@ -188,6 +192,18 @@ amortized over m operations.
   operations modify elements near the end, a DualArrayDequeue places two
   ArrayStacks back-to-back so that operations are fast on either end.
 
+- Balancing the two ArrayStacks ensures that, unless there are fewer than 2
+  elements, both front and back each contain at least n/4 elements.
+
+  - If this condition is not met (there are less than n/4 elements in one of
+    the arrays and more than 3n/4 in the other), balance() moves elements
+    between the two arrays so that front and back each contain as close to n/2
+    elements as is possible (accounting for odd values of n).
+
+### Theorem
+
+- Implements the List interface.
+
 - Ignoring the cost of calls to resize() and balance(), an ArrayDequeue
   supports:
 
@@ -197,6 +213,54 @@ amortized over m operations.
 - Furthermore, beginning with an empty DualArrayDequeue, performing any sequence
   of m add(i, x) and remove(i) operations results in a total of O(m) time
   spent during all calls to resize() and balance().
+
+### Calculations
+
+- The potential of a DualArrayDequeue is the difference between the size of the
+  front array and the back array:
+
+  - $$\phi = |front.size() - back.size()|$$
+
+- If the ArrayStacks are balanced, the potential is no more than 1 (0 for an
+  even number of n elements, 1 for an odd number of n elements).
+
+- If the ArrayStacks are not balanced (less than n/4 elements in one and greater
+  than 3n/4 elements in the other), then the potential is at least n/2
+  ($$\phi > 2$$).
+
+- Observation:
+
+  - A call to an add or remove operation that does not trigger a call to
+    balance() can increase the potential by at most 1.
+
+  - Immediately after a call to balance() that shift the elements, the potential
+    is at most 1, since:
+
+    - $$ \phi_0 = |[n/2]-[n/2]| \leq 1 $$
+
+  - Considering a situation where immediately before a call to balance(), the
+    call is occurring because $$ 3\*front.size() < back.size() $$. Notice that
+    in this case,
+
+    - $$
+        \begin{aligned}
+            n = front.size() + back.size() < back.size()/3 + back.size()
+              = \frac{4}{3} back.size()
+        \end{aligned}
+      $$
+
+  - Furthermore, the potential at this point in time is,
+
+    - $$
+        \begin{aligned}
+            \phi_1 = back.size() - front.size() > back.size() - back.size()/3
+                   = \frac{2}{3} back.size() > \frac{2}{3} * \frac{3}{4}n
+                   = n/2
+        \end{aligned}
+      $$
+
+  - Therefore, the number of calls to add or remove since the last call to
+    balance() is at least $$ \phi_1 - \phi_0 > \frac{n}{2} - 1 $$.
 
 ## 2.6 | RootishArrayStack: A Space-Efficient Array Stack
 

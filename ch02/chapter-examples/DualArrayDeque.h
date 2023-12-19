@@ -4,17 +4,17 @@
 #include "array.h"
 #include <iostream>
 
-// Forward declaration of ArrayStack.
+// Forward declaration of ArrayStack
 template <typename T>
 class ArrayStack;
 
-// Forward declaration of TestableDataStructure.
+// Forward declaration of PrintableDataStructure
 template <typename T>
-class TestableDataStructure;
+class PrintableDataStructure;
 
-// Achieves the same performance bounds as an ArrayDequeue with two ArrayStacks.
+// Achieves the same performance bounds as an ArrayDequeue with two ArrayStacks
 template <typename T>
-class DualArrayDeque : public TestableDataStructure<T> {
+class DualArrayDeque : public PrintableDataStructure<T> {
 public:
 	ArrayStack<T> front;
 	ArrayStack<T> back;
@@ -24,129 +24,92 @@ public:
 		back.n = 0;
 	}
 
-	// Calculates the number of elements conatined using the size() function of
-	// the two ArrayStacks rather than storing a variable n.
-	// Calls to get(i) and set(i, x), regardless of front or back, takes O(1)
-	// time per operation.
 	int size() {
+		// Calculates the number of elements containse in the two ArrayStacks
 		return front.size() + back.size();
 	}
 
-	// ===
-	// BASICS
-	// ===
+	// === BASICS ===
 
-	// The front ArrayStack stores the list of elements whose indices are
-	// [0, ..., front.size() - 1], but stores them in reverse order.
-	// The back ArrayStack stores the list of elements whose indices are
-	// [front.size(), ..., size() - 1] in normal order.
 	T get(int i) {
-		// If i is contained in the front array, return the value from the
-		// front array at front.size() - i - 1 as the values are stored in
-		// reverse order.
-		// Otherwise, return the value from the back array.
+		// If i is less than front.size(), value is contained in the front array
 		if (i < front.size()) {
+			// Return the value at front.size() - i - 1
 			return front.get(front.size() - i - 1);
 		} else {
+			// Otehrwise, return the value in the back array, i - front.size()
 			return back.get(i - front.size());
 		}
 	}
 
 	T set(int i, T x) {
-		// If i is contained in the front array, set the value in the front
-		// array.
-		// Otherwise, set the value from the back array.
+		// If i is less than front.size(), set the value in the front array
 		if (i < front.size()) {
 			return front.set(front.size() - i - 1, x);
 		} else {
+			// Otherwise, set the value in the back array, i - front.size()
 			return back.set(i - front.size(), x);
 		}
 	}
 
-	// add(x)
-	// Elements are added to either the front or back, as appropriate.
-	//
-	// Adding to the front occurs when i < n/4. Adding to the back occurs when
-	// i >= 3n/4.
-	//
-	// When n/4 <= i <= 3n/4, we cannot be sure whether the operation affects
-	// the front or back. Regardless, in either case, operation takes:
-	// - O(n) = O(i) = O(n - i) time, since i >= n/4 and n - i > n/4.
-	//
-	// Therefore, the running time of add(i, x), ignoring the cost of calls to
-	// balance(), is O(1 + min(i, n - i)).
 	void add(int i, T x) {
-		// If i is less than the size of front, add to front in reverse order.
-		// Otherwise, add to the back.
+		// If i is less than the size of front, add to front in reverse order
 		if (i < front.size()) {
-			// The cost of this operation is:
-			// - O(front.size() - (front.size() - i - 1) + 1) = O(i + 1)
 			front.add(front.size() - i, x);
 		} else {
-			// The cost of this operation is:
-			// - O(back.size() - (i  - front.size()) + 1) = O(n - i + 1)
+			// Otherwise, add to the back array
 			back.add(i - front.size(), x);
 		}
+
+		// Balance the two arrays
 		balance();
 	}
 
-	// Elements are removed from either the front or back, as appropriate.
-	//
-	// Removing from the front occurs when i < n/4. Removing from the back
-	// occurs when i >= 3n/4.
-	//
-	// When n/4 <= i <= 3n/4, we cannot be sure whether the operation affects
-	// the front or back. Regardless, in either case, operation takes:
-	// - O(n) = O(i) = O(n - i) time, since i >= n/4 and n - i > n/4.
-	//
-	// Therefore, the running time of remove(), ignoring the cost of calls to
-	// balance(), is O(1 + min(i, n - i)).
 	T remove(int i) {
 		T x;
 
+		// If i is less than the size of front, remove from the front array
 		if (i < front.size()) {
 			x = front.remove(front.size() - i - 1);
 		} else {
+			// Otherwise, remove from the back array
 			x = back.remove(i - front.size());
 		}
 
+		// Balance the two arrays
 		balance();
 
+		// Return the removed value
 		return x;
 	}
 
-	// ===
-	// GROWING / SHRINKING
-	// ===
+	// === GROWING / SHRINKING ===
 
-	// balance()
-	// Ensures that	neither the front nor back becomes too big (or too small).
-	// Unless there are fewer than two elements, each of front and back contain
-	// at least n/4 elements.
-	// If this is not the case, balance() moves elements between them so that
-	// front and back both contain exactly [n/2] elements.
-	//
-	// If the balance() operation does rebalancing, then it moves O(n) elements
-	// in O(n) time.
-	// However, on average, balance() only spends a constant amount of time per
-	// operation.
 	void balance() {
-		if (3 * front.size() < back.size() || 3 * back.size() < front.size()) {
+		// Check if either array is 3 times smaller than the other
+		if (3*front.size() < back.size() || 3*back.size() < front.size()) {
+			// Calculate the total number of elements in the two arrays
 			int n = front.size() + back.size();
+
+			// Create the front array with a size of 2n
 			int nf = n/2;
 			array<T> af(std::max(2 * nf, 1));
 			
+			// Copy the elements from the front array in reverse order
 			for (int i = 0; i < nf; i++) {
 				af[nf-i-1] = get(i);
 			}
 
+			// Create the back array with the remaining 2n elements
 			int nb = n - nf;
 			array<T> ab(std::max(2 * nb, 1));
 
+			// Copy the elements from the back array
 			for (int i = 0; i < nb; i++) {
 				ab[i] = get(nf+i);
 			}
 
+			// Set the front and back arrays to the new arrays
 			front.a = af;
 			front.n = nf;
 			back.a = ab;
@@ -154,13 +117,45 @@ public:
 		}
 	}
 
+	// === TESTING ===
 
-	// ===
-	// TESTING
-	// ===
+	void test() {
+		std::cout << "===" << std::endl;
+		std::cout << "2.5 | DualArrayDeque: Building a Deque from Two Stacks" << std::endl;
+		std::cout << "===" << std::endl;
 
-	std::string typeDesc() override;
-	void test() override;
+		this->add(0, 1);
+		std::cout << "DualArrayDeque.add(index: 0, value: 1)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->add(1, 2);
+		std::cout << "DualArrayDeque.add(index: 1, value: 2)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->add(2, 3);
+		std::cout << "DualArrayDeque.add(index: 2, value: 3)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		this->remove(0);
+		std::cout << "DualArrayDeque.remove(0)" << std::endl;
+		std::cout << "DualArrayDeque.size() =  " << this->size() << std::endl;
+
+		this->printAllElements();
+
+		std::cout << "DualArrayDeque.get(index: 1) = " << this->get(1) << std::endl;
+
+		this->set(1, 4);
+		std::cout << "DualArrayDeque.set(index: 1, value: 4)" << std::endl;
+
+		this->printAllElements();
+	}
+
 	void printAllElements() override;
 };
 
