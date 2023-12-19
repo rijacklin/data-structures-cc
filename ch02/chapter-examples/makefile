@@ -1,27 +1,30 @@
 # Define compiler and compiler flags
 CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++11
+CXXFLAGS = -Wall -Wextra
 
 # Define the target file
-TARGET = main
+TARGET = Main
+OUT_DIR = ./out
 
 # Define the source files
-SRC = main.cc $(wildcard ./chapter-examples/*.cc)
+SRC = Main.cpp $(wildcard *.cpp)
 
 # Define object files (replace .cpp with .o)
-OBJ = $(SRC:.cc=.o)
+OBJ = $(patsubst %.cpp,$(OUT_DIR)/%.o,$(SRC))
 
 # Default target
-all: $(TARGET)
+all: $(OUT_DIR)/$(TARGET)
 
 # Rule for linking the final executable
-$(TARGET): $(OBJ)
+$(OUT_DIR)/$(TARGET): $(OBJ)
+	@mkdir -p $(OUT_DIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # Rule for compiling source files to object files
-%.o: %.cc
-	$(CXX) $(CXXFLAGS) -c $<
+$(OUT_DIR)/%.o: %.cpp
+	@mkdir -p $(OUT_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Clean target
 clean:
-	rm -f $(OBJ) $(TARGET)
+	rm -rf $(OUT_DIR)

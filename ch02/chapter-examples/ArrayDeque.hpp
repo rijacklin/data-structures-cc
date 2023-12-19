@@ -1,28 +1,24 @@
-#ifndef ARRAY_DEQUE_H
-#define ARRAY_DEQUE_H
+#ifndef ARRAY_DEQUE_HPP
+#define ARRAY_DEQUE_HPP
 
-#include "./array.h"
+#include "Array.hpp"
 #include <iostream>
-
-// Forward declaration of PrintableDataStructure
-template <typename T>
-class PrintableDataStructure;
 
 // Implements the List interface with a ciruclar array using modular arithmetic
 template <typename T>
-class ArrayDeque : public PrintableDataStructure<T> {
+class ArrayDeque {
 public:
-	array<T> a;
+	Array<T> a;
 	int j;
 	int n;
 
 	ArrayDeque() : a(n = 0) {}
 
+	// === BASICS ===
+
 	int size() {
 		return n;
 	}
-
-	// === BASICS ===
 
 	T get(int i) {
 		// Return the value at index i
@@ -87,10 +83,10 @@ public:
 	}
 
 	// === GROWING / SHRINKING ===
-	
+
 	void resize() {
 		// Create a new array that is double the size of the backing array
-		array<T> b(std::max(2 * n, 1));
+		Array<T> b(std::max(2 * n, 1));
 
 		// Copy n elements from a to b
 		for (int k = 0; k < n; k++) {
@@ -143,7 +139,19 @@ public:
 		this->printAllElements();
 	}
 
-	void printAllElements() override;
+	void printAllElements() {
+		std::cout << "\t> Contains Elements: [";
+
+		for (int i = 0; i < this->size(); i++) {
+			if (this->size() == 1 || i == this->size() - 1) {
+				std::cout << this->get(i);
+				continue;
+			}
+			std::cout << this->get(i) << ", ";
+		}
+		std::cout << "]" << std::endl;
+		std::cout << std::endl;
+	}
 };
 
-#endif // ARRAY_DEQUE_H
+#endif // ARRAY_DEQUE_HPP

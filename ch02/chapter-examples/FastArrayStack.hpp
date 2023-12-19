@@ -1,18 +1,14 @@
-#ifndef FAST_ARRAY_STACK_H
-#define FAST_ARRAY_STACK_H
+#ifndef FAST_ARRAY_STACK_HPP
+#define FAST_ARRAY_STACK_HPP
 
-#include "./array.h"
+#include "Array.hpp"
 #include <iostream>
-
-// Forward declaration of PrintableDataStructure
-template <typename T>
-class PrintableDataStructure;
 
 // Implements the List interface using a backing array
 template <typename T>
-class FastArrayStack : PrintableDataStructure<T> {
+class FastArrayStack {
 public:
-	array<T> a;
+	Array<T> a;
 	int n;
 
 	FastArrayStack() : a(n = 0) {}
@@ -69,7 +65,7 @@ public:
 	
 	void resize() {
 		// Create a new array of size 2n
-		array<T> b(std::max(1, 2 * n));
+		Array<T> b(std::max(1, 2 * n));
 
 		// Copy n elements from a to b using efficient std::copy algorithm
 		std::copy(a.a + 0, a.a +n, b.a + 0);
@@ -117,7 +113,19 @@ public:
 		this->printAllElements();
 	}
 
-	void printAllElements() override;
+	void printAllElements() {
+		std::cout << "\t> Contains Elements: [";
+
+		for (int i = 0; i < this->size(); i++) {
+			if (this->size() == 1 || i == this->size() - 1) {
+				std::cout << this->get(i);
+				continue;
+			}
+			std::cout << this->get(i) << ", ";
+		}
+		std::cout << "]" << std::endl;
+		std::cout << std::endl;
+	}
 };
 
-#endif // FAST_ARRAY_STACK_H
+#endif // FAST_ARRAY_STACK_HPP

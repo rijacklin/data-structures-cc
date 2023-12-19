@@ -1,18 +1,14 @@
-#ifndef ARRAY_STACK_H
-#define ARRAY_STACK_H
+#ifndef ARRAY_STACK_HPP
+#define ARRAY_STACK_HPP
 
-#include "./array.h"
+#include "Array.hpp"
 #include <iostream>
-
-// Forward declaration of PrintableDataStructure
-template <typename T>
-class PrintableDataStructure;
 
 // Implements the List interface using a backing array
 template <typename T>
-class ArrayStack : public PrintableDataStructure<T> {
+class ArrayStack {
 public:
-	array<T> a;
+	Array<T> a;
 	int n;
 
 	ArrayStack() : a(n = 0) {}
@@ -73,7 +69,7 @@ public:
 	
 	void resize() {
 		// Create a new array of size 2n
-		array<T> b(std::max(2*n, 1));
+		Array<T> b(std::max(2*n, 1));
 
 		// Copy n elements from a to new array b
 		for (int i = 0; i < n; i++) {
@@ -123,7 +119,19 @@ public:
 		this->printAllElements();
 	}
 
-	void printAllElements() override;
+	void printAllElements() {
+		std::cout << "\t> Contains Elements: [";
+
+		for (int i = 0; i < this->size(); i++) {
+			if (this->size() == 1 || i == this->size() - 1) {
+				std::cout << this->get(i);
+				continue;
+			}
+			std::cout << this->get(i) << ", ";
+		}
+		std::cout << "]" << std::endl;
+		std::cout << std::endl;
+	}
 };
 
-#endif // ARRAY_STACK_H
+#endif // ARRAY_STACK_HPP

@@ -262,6 +262,8 @@ amortized over m operations.
   - Therefore, the number of calls to add or remove since the last call to
     balance() is at least $$ \phi_1 - \phi_0 > \frac{n}{2} - 1 $$.
 
+---
+
 ## 2.6 | RootishArrayStack: A Space-Efficient Array Stack
 
 - Addresses the problem of wasted space by storing n elements in O(sqrt(n))
@@ -272,6 +274,33 @@ amortized over m operations.
 
 - This data structure stores its elements in a list of r arrays called `blocks`
   that are numbered [0, 1, ..., r - 1]. Block b contains b + 1 elements.
+
+  - b = index of the subarray A that contains index i.
+  - j = index in A of the element at list index i.
+    = $$ \frac{i - b(b - 1)}{2} $$
+
+- When performing a check for a call to shrink() when removing an element, we
+  only call shrink() if there is greater than 1 empty array.
+
+  - If we attempt to call shrink() when there is exactly 1 empty array, we will
+    end up with a **thrashing** problem. Each call to add and remove will take
+    sqrt(n) time instead constant time because we have to continuously allocate
+    and deallocate the array.
+
+### Quadractic Equation Calculation (i2b)
+
+- The first b+1 lists contain: $$ \frac{(b+1)(b+2)}{2} $$ elements. We want the
+  smallest b such that: $$ \frac{(b+1)(b+2)}{2} \geq i+1 $$.
+
+  - This is a quadratic equation in the variable b.
+  - It can be written as: $$ b^2 + 3b - 2i = 0 $$.
+       $$ b = \frac{3 + \sqrt(9 + 8i)}{2} $$
+  - We use the `ceil()` function to truncate the decimals on the index value.
+
+### Theorem
+
+- Has the same performance (at least asymptotically) as ArrayStack, but uses
+  only sqrt(n) wasted space.
 
 - Ignoring the cost of calls to grow() and shrink(), an ArrayDequeue
   supports:
@@ -290,3 +319,21 @@ amortized over m operations.
 - Therefore, even if grow() or shrink() take O(r) time, this cost can be
   amortized over at least one r - 1 add(i, x) or remove(i) operations, so that
   the amortized cost of grow() and shrink() is O(1) per operation.
+
+### Theorem on why sqrt(n) is the lower bound
+
+- Any data structure that supports any type of add operation must use \Ohm(sqrt(n))
+  (some constant(sqrt(n)) wasted space.
+
+### Proof
+
+- Take a data structure and add n elements to it.
+
+- Case 1: The data structure uses more than sqrt(n) arrays means it uses more
+  than sqrt(n) pointers.
+
+- Case 2: The data structure uses at most sqrt(n) arrays means at least one
+  array has size at least n/k. As $$ n/k \geq n/sqrt(n) \geq sqrt(n) $$.
+
+  - This means that when this array was allocated, it was sqrt(n) wasted
+    space.

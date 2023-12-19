@@ -1,20 +1,16 @@
-#ifndef DUAL_ARRAY_DEQUE_H
-#define DUAL_ARRAY_DEQUE_H
+#ifndef DUAL_ARRAY_DEQUE_HPP
+#define DUAL_ARRAY_DEQUE_HPP
 
-#include "array.h"
+#include "Array.hpp"
 #include <iostream>
 
-// Forward declaration of ArrayStack
+// Forward declaration of ArrayStack.
 template <typename T>
 class ArrayStack;
 
-// Forward declaration of PrintableDataStructure
-template <typename T>
-class PrintableDataStructure;
-
 // Achieves the same performance bounds as an ArrayDequeue with two ArrayStacks
 template <typename T>
-class DualArrayDeque : public PrintableDataStructure<T> {
+class DualArrayDeque {
 public:
 	ArrayStack<T> front;
 	ArrayStack<T> back;
@@ -93,7 +89,7 @@ public:
 
 			// Create the front array with a size of 2n
 			int nf = n/2;
-			array<T> af(std::max(2 * nf, 1));
+			Array<T> af(std::max(2 * nf, 1));
 			
 			// Copy the elements from the front array in reverse order
 			for (int i = 0; i < nf; i++) {
@@ -102,7 +98,7 @@ public:
 
 			// Create the back array with the remaining 2n elements
 			int nb = n - nf;
-			array<T> ab(std::max(2 * nb, 1));
+			Array<T> ab(std::max(2 * nb, 1));
 
 			// Copy the elements from the back array
 			for (int i = 0; i < nb; i++) {
@@ -156,7 +152,19 @@ public:
 		this->printAllElements();
 	}
 
-	void printAllElements() override;
+	void printAllElements() {
+		std::cout << "\t> Contains Elements: [";
+
+		for (int i = 0; i < this->size(); i++) {
+			if (this->size() == 1 || i == this->size() - 1) {
+				std::cout << this->get(i);
+				continue;
+			}
+			std::cout << this->get(i) << ", ";
+		}
+		std::cout << "]" << std::endl;
+		std::cout << std::endl;
+	}
 };
 
-#endif // DUAL_ARRAY_DEQUE_H
+#endif // DUAL_ARRAY_DEQUE_HPP

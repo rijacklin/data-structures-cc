@@ -1,16 +1,16 @@
-#ifndef ARRAY_H
-#define ARRAY_H
+#ifndef ARRAY_HPP
+#define ARRAY_HPP
 
 #include <cassert>
 
 template <typename T>
-class array {
+class Array {
 public:
 	T *a;
 	int length;
 
 	// Initializer
-	array(int len) {
+	Array(int len) {
 		// Set the length of new array
 		length = len;
 
@@ -27,7 +27,7 @@ public:
 	}
 
 	// Assignment - override = operator
-	array<T>& operator=(array<T> &b) {
+	Array<T>& operator=(Array<T> &b) {
 		// If a is not NULL, free the exiting memory for a
 		if (a != NULL) delete[] a;
 
@@ -46,4 +46,4 @@ public:
 	}
 };
 
-#endif // ARRAY_H
+#endif // ARRAY_HPP

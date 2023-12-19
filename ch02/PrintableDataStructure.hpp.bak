@@ -1,5 +1,5 @@
-#ifndef PRINTABLE_DATA_STRUCTURE_H
-#define PRINTABLE_DATA_STRUCTURE_H
+#ifndef PRINTABLE_DATA_STRUCTURE_HPP
+#define PRINTABLE_DATA_STRUCTURE_HPP
 
 #include <iostream>
 
@@ -11,12 +11,12 @@ public:
 	virtual ~PrintableDataStructure() {}
 };
 
-#include "./chapter-examples/ArrayStack.h"
-#include "./chapter-examples/FastArrayStack.h"
-#include "./chapter-examples/ArrayQueue.h"
-#include "./chapter-examples/ArrayDeque.h"
-#include "./chapter-examples/DualArrayDeque.h"
-#include "./chapter-examples/RootishArrayStack.h"
+#include "./chapter-examples/ArrayStack.hpp"
+#include "./chapter-examples/FastArrayStack.hpp"
+#include "./chapter-examples/ArrayQueue.hpp"
+#include "./chapter-examples/ArrayDeque.hpp"
+#include "./chapter-examples/DualArrayDeque.hpp"
+#include "./chapter-examples/RootishArrayStack.hpp"
 
 template <typename T>
 class ArrayStack;
@@ -56,9 +56,6 @@ inline void FastArrayStack<T>::printAllElements() {
 }
 
 template <typename T>
-class ArrayQueue;
-
-template <typename T>
 inline void ArrayQueue<T>::printAllElements() {
 	std::cout << "\t> Contains Elements: [";
 
@@ -72,9 +69,6 @@ inline void ArrayQueue<T>::printAllElements() {
 	std::cout << "]" << std::endl;
 	std::cout << std::endl;
 }
-
-template <typename T>
-class ArrayDeque;
 
 template <typename T>
 inline void ArrayDeque<T>::printAllElements() {
@@ -92,9 +86,6 @@ inline void ArrayDeque<T>::printAllElements() {
 }
 
 template <typename T>
-class DualArrayDeque;
-
-template <typename T>
 inline void DualArrayDeque<T>::printAllElements() {
 	std::cout << "\t> Contains Elements: [";
 
@@ -108,9 +99,6 @@ inline void DualArrayDeque<T>::printAllElements() {
 	std::cout << "]" << std::endl;
 	std::cout << std::endl;
 }
-
-template <typename T>
-class RootishArrayStack;
 
 template <typename T>
 inline void RootishArrayStack<T>::printAllElements() {
@@ -127,4 +115,4 @@ inline void RootishArrayStack<T>::printAllElements() {
 	std::cout << std::endl;
 }
 
-#endif // PRINTABLE_DATA_STRUCTURE_H
+#endif // PRINTABLE_DATA_STRUCTURE_HPP
